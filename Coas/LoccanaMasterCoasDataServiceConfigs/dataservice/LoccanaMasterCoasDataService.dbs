@@ -1,0 +1,85 @@
+<data transports="http https" serviceGroup="com.loccana.master.coas.dataservice" serviceNamespace="" name="LoccanaMasterCoasDataService">
+  <description />
+  <operation name="createCoas">
+    <call-query href="createCoasQuery">
+      <with-param name="id_parent" query-param="id_parent" />
+      <with-param name="coa" query-param="coa" />
+      <with-param name="description" query-param="description" />
+      <with-param name="created_at" query-param="created_at" />
+      <with-param name="updated_at" query-param="updated_at" />
+    </call-query>
+  </operation>
+  <operation name="getCoasDetail">
+    <call-query href="getCoasDetailQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="updateCoas">
+    <call-query href="updateCoasQuery">
+      <with-param name="id_parent" query-param="id_parent" />
+      <with-param name="coa" query-param="coa" />
+      <with-param name="description" query-param="description" />
+      <with-param name="status" query-param="status" />
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="deleteCoas">
+    <call-query href="deleteCoasQuery">
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <config id="DataSourceMasterData">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">root</property>
+  </config>
+  <query keyColumns="id" returnGeneratedKeys="true" useConfig="DataSourceMasterData" id="createCoasQuery">
+    <sql>INSERT INTO coa (id_parent,coa,description,created_at,updated_at) VALUES (:id_parent,:coa,:description,:created_at,:updated_at)</sql>
+    <param name="id_parent" sqlType="STRING" />
+    <param name="coa" sqlType="STRING" />
+    <param name="description" sqlType="STRING" />
+    <param name="created_at" sqlType="STRING" />
+    <param name="updated_at" sqlType="STRING" />
+    <result useColumnNumbers="true" element="return">
+      <element name="id" xsdType="integer" column="1" />
+    </result>
+  </query>
+  <query useConfig="DataSourceMasterData" id="getCoasDetailQuery">
+    <sql>SELECT id,id_parent,coa,description,status,created_at,updated_at FROM coa WHERE status = 0 AND id = :id</sql>
+    <param name="id" sqlType="STRING" paramType="SCALAR" />
+    <result outputType="json">{
+   "data":{
+            "id":"$id",
+            "id_parent":"$id_parent",
+            "coa":"$coa",
+            "description":"$description",
+            "status":"$status",
+            "created_at":"$created_at",
+            "updated_at":"$updated_at"
+   }
+}</result>
+  </query>
+  <query useConfig="DataSourceMasterData" id="updateCoasQuery" returnUpdatedRowCount="true">
+    <sql>UPDATE coa SET id_parent = :id_parent,coa = :coa,description = :description,status = :status, updated_at = :updated_at WHERE id = :id</sql>
+    <param name="id_parent" sqlType="STRING" paramType="SCALAR" />
+    <param name="coa" sqlType="STRING" paramType="SCALAR" />
+    <param name="description" sqlType="STRING" paramType="SCALAR" />
+    <param name="status" sqlType="STRING" paramType="SCALAR" />
+    <param name="updated_at" sqlType="STRING" paramType="SCALAR" />
+    <param name="id" sqlType="STRING" paramType="SCALAR" />
+    <result useColumnNumbers="true" element="UpdatedRowCount">
+      <element name="id" xsdType="integer" column="1" />
+    </result>
+  </query>
+  <query useConfig="DataSourceMasterData" id="deleteCoasQuery" returnUpdatedRowCount="true">
+    <sql>UPDATE coa SET status = 1,updated_at = :updated_at where id = :id</sql>
+    <result useColumnNumbers="true" element="UpdatedRowCount" rowName="">
+      <element name="id" xsdType="integer" column="1" />
+    </result>
+    <param name="updated_at" sqlType="STRING" />
+    <param name="id" sqlType="STRING" />
+  </query>
+</data>
