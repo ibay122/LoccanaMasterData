@@ -1,0 +1,90 @@
+<data transports="http https" serviceGroup="com.loccana.master.item.types" serviceNamespace="" name="LoccanaMasterItemTypesDataService">
+  <description />
+  <config id="DataSourceMasterData">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">root</property>
+  </config>
+  <query id="createItemTypesQuery" returnGeneratedKeys="true" keyColumns="id" useConfig="DataSourceMasterData">
+    <sql>INSERT INTO item_types (type_code, name_type, description,
+			created_at, updated_at) VALUES (:type_code, :name_type, :description,
+			:created_at, :updated_at)</sql>
+    <param type="IN" name="type_code" optional="false" sqlType="STRING" paramType="SCALAR" />
+    <param type="IN" name="name_type" optional="false" sqlType="STRING" paramType="SCALAR" />
+    <param type="IN" name="description" optional="false" sqlType="STRING" paramType="SCALAR" />
+    <param type="IN" name="created_at" optional="false" sqlType="STRING" paramType="SCALAR" />
+    <param type="IN" name="updated_at" optional="false" sqlType="STRING" paramType="SCALAR" />
+    <result element="return" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+  </query>
+  <query id="getItemTypesDetailQuery" useConfig="DataSourceMasterData">
+    <sql>SELECT type_code, name_type, description, status FROM item_types
+			WHERE status = 0 AND id = :id</sql>
+    <param name="id" sqlType="STRING" paramType="SCALAR" />
+    <result outputType="json">{
+			"data":{
+			"type_code":"$type_code",
+			"name_type":"$name_type",
+			"description":"$description",
+			"status":"$status",
+			"created_at":"$created_at",
+			"updated_at":"$updated_at"
+			}
+			}</result>
+  </query>
+  <query id="updateItemTypesQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE item_types SET type_code = :type_code, name_type =
+			:name_type, description = :description, updated_at = :updated_at
+			WHERE id = :id</sql>
+    <param type="IN" name="type_code" optional="false" sqlType="STRING" paramType="SCALAR" />
+    <param type="IN" name="name_type" optional="false" sqlType="STRING" paramType="SCALAR" />
+    <param type="IN" name="description" optional="false" sqlType="STRING" paramType="SCALAR" />
+    <param type="IN" name="updated_at" optional="false" sqlType="STRING" paramType="SCALAR" />
+    <param type="IN" name="id" optional="false" sqlType="STRING" paramType="SCALAR" />
+    <result element="UpdatedRowCount" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" requiredRoles="" />
+    </result>
+  </query>
+  <query id="deleteItemTypesQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE item_types SET status = 1, updated_at = :updated_at WHERE
+			id = :id</sql>
+    <param name="status" sqlType="STRING" paramType="SCALAR" />
+    <param name="updated_at" sqlType="STRING" paramType="SCALAR" />
+    <param name="id" sqlType="STRING" paramType="SCALAR" />
+    <result element="UpdatedRowCount" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" requiredRoles="" />
+    </result>
+  </query>
+  <operation name="createItemTypes">
+    <call-query href="createItemTypesQuery">
+      <with-param name="type_code" query-param="type_code" />
+      <with-param name="name_type" query-param="name_type" />
+      <with-param name="description" query-param="description" />
+      <with-param name="created_at" query-param="created_at" />
+      <with-param name="updated_at" query-param="updated_at" />
+    </call-query>
+  </operation>
+  <operation name="getItemTypesDetail">
+    <call-query href="getItemTypesDetailQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="updateItemTypes">
+    <call-query href="updateItemTypesQuery">
+      <with-param name="type_code" query-param="type_code" />
+      <with-param name="name_type" query-param="name_type" />
+      <with-param name="description" query-param="description" />
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="deleteItemTypes">
+    <call-query href="deleteItemTypesQuery">
+      <with-param name="status" query-param="status" />
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+</data>
