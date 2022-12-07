@@ -1,0 +1,96 @@
+<data name="MasterUomsDataService" serviceNamespace="" serviceGroup="com.loccana.group.uoms" transports="http https">
+  <description />
+  <config id="DataSourceMasterData">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">root</property>
+  </config>
+  <query id="createUomsQuery" useConfig="DataSourceMasterData" returnGeneratedKeys="true" keyColumns="id">
+    <sql>INSERT INTO uom (name,symbol,description,created_at,updated_at) VALUES (:name,:symbol,:description,:created_at,:updated_at)</sql>
+    <param name="name" sqlType="STRING" />
+    <param name="symbol" sqlType="STRING" />
+    <param name="description" sqlType="STRING" />
+    <param name="created_at" sqlType="STRING" />
+    <param name="updated_at" sqlType="STRING" />
+    <result element="return" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+  </query>
+  <query id="updateUomsQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE uom SET name = :name,symbol = :symbol,description = :description,status = :status, updated_at = :updated_at WHERE id = :id</sql>
+    <param name="name" sqlType="STRING" paramType="SCALAR" />
+    <param name="symbol" sqlType="STRING" paramType="SCALAR" />
+    <param name="description" sqlType="STRING" paramType="SCALAR" />
+    <param name="status" sqlType="STRING" paramType="SCALAR" />
+    <param name="updated_at" sqlType="STRING" paramType="SCALAR" />
+    <param name="id" sqlType="STRING" paramType="SCALAR" />
+    <result element="UpdatedRowCount" useColumnNumbers="true" rowName="">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+    <result useColumnNumbers="true" outputType="json">{
+   "data":{
+            "id":"$id",
+            "name":"$name",
+            "symbol":"$symbol",
+            "description":"$description",
+            "status":"$status",
+            "created_at":"$created_at",
+            "updated_at":"$updated_at"
+   }
+}</result>
+  </query>
+  <query id="getUomsDetailQuery" useConfig="DataSourceMasterData">
+    <sql>SELECT id,name,symbol,description,status,created_at,updated_at FROM uom WHERE status = 0 AND id = :id</sql>
+    <param name="id" sqlType="STRING" paramType="SCALAR" />
+    <result outputType="json">{
+   "data":{
+            "id":"$id",
+            "name":"$name",
+            "symbol":"$symbol",
+            "description":"$description",
+            "status":"$status",
+            "created_at":"$created_at",
+            "updated_at":"$updated_at"
+   }
+}</result>
+  </query>
+  <query id="deleteUomsQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE uom SET status = 1,updated_at = :updated_at where id = :id</sql>
+    <result element="UpdatedRowCount" useColumnNumbers="true" rowName="">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+    <param name="updated_at" sqlType="STRING" />
+    <param name="id" sqlType="STRING" />
+  </query>
+  <operation name="createUoms">
+    <call-query href="createUomsQuery">
+      <with-param name="name" query-param="name" />
+      <with-param name="symbol" query-param="symbol" />
+      <with-param name="description" query-param="description" />
+      <with-param name="created_at" query-param="created_at" />
+      <with-param name="updated_at" query-param="updated_at" />
+    </call-query>
+  </operation>
+  <operation name="updateUoms">
+    <call-query href="updateUomsQuery">
+      <with-param name="name" query-param="name" />
+      <with-param name="symbol" query-param="symbol" />
+      <with-param name="description" query-param="description" />
+      <with-param name="status" query-param="status" />
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="getUomsDetail">
+    <call-query href="getUomsDetailQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="deleteUoms">
+    <call-query href="deleteUomsQuery">
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+</data>
