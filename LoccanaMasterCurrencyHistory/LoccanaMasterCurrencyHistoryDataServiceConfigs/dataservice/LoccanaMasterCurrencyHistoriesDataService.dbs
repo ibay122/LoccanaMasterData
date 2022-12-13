@@ -1,0 +1,89 @@
+<data name="LoccanaMasterCurrencyHistoriesDataService" serviceNamespace="" serviceGroup="" transports="http https">
+  <description />
+  <config id="DatasourceMasterData">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">root</property>
+  </config>
+  <query id="createCurrenyHistoriesQuery" useConfig="DatasourceMasterData" returnGeneratedKeys="true" keyColumns="id">
+    <sql>INSERT INTO currency_history (currency_id, rate, start_date, end_date, created_at, updated_at) VALUES (:currency_id, :rate, :start_date, :end_date, :created_at, :updated_at)</sql>
+    <param name="currency_id" paramType="SCALAR" sqlType="STRING" />
+    <param name=" rate" paramType="SCALAR" sqlType="STRING" />
+    <param name=" start_date" paramType="SCALAR" sqlType="STRING" />
+    <param name=" end_date" paramType="SCALAR" sqlType="STRING" />
+    <param name=" created_at" paramType="SCALAR" sqlType="STRING" />
+    <param name=" updated_at" paramType="SCALAR" sqlType="STRING" />
+    <result useColumnNumbers="true" element="return">
+      <element name="id" xsdType="integer" column="1" />
+    </result>
+  </query>
+  <query id="getCurrencyHistoriesDetailQuery" useConfig="DatasourceMasterData">
+    <sql>SELECT id,currency_id,rate,start_date,end_date,created_at,updated_at FROM currency_history WHERE status = 0 AND id = :id</sql>
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result outputType="json">{
+    "data": {
+        "currency_id": "$currency_id",
+        "rate": "$rate",
+        "start_date": "$start_date",
+        "end_date": "$end_date",
+        "status": "$status",
+        "created_at": "$created_at",
+        "updated_at": "$updated_at"
+    }
+}</result>
+  </query>
+  <query id="updateCurrencyHistoriesQuery" useConfig="DatasourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE currency_history SET currency_id = :currency_id, rate = :rate, start_date = :start_date, end_date = :end_date, status = :status, updated_at = :updated_at WHERE id = :id</sql>
+    <param name="currency_id" paramType="SCALAR" sqlType="STRING" />
+    <param name="rate" paramType="SCALAR" sqlType="STRING" />
+    <param name="start_date" paramType="SCALAR" sqlType="STRING" />
+    <param name="end_date" paramType="SCALAR" sqlType="STRING" />
+    <param name="status" paramType="SCALAR" sqlType="STRING" />
+    <param name="updated_at" paramType="SCALAR" sqlType="STRING" />
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result element="UpdatedRowCount" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" requiredRoles="" />
+    </result>
+  </query>
+  <query id="deleteCurrencyHistoriesQuery" useConfig="DatasourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE currency_history SET status = 1, updated_at = :updated_at WHERE id = :id</sql>
+    <param name="updated_at" paramType="SCALAR" sqlType="STRING" />
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result useColumnNumbers="true" element="UpdatedRowCount">
+      <element name="id" xsdType="integer" column="1" requiredRoles="" />
+    </result>
+  </query>
+  <operation name="createCurrencyHistories">
+    <call-query href="createCurrenyHistoriesQuery">
+      <with-param name="currency_id" query-param="currency_id" />
+      <with-param name=" rate" query-param=" rate" />
+      <with-param name=" start_date" query-param=" start_date" />
+      <with-param name=" end_date" query-param=" end_date" />
+      <with-param name=" created_at" query-param=" created_at" />
+      <with-param name=" updated_at" query-param=" updated_at" />
+    </call-query>
+  </operation>
+  <operation name="getCurrencyHistoriesDetail">
+    <call-query href="getCurrencyHistoriesDetailQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="updateCurrencyHistories">
+    <call-query href="updateCurrencyHistoriesQuery">
+      <with-param name="currency_id" query-param="currency_id" />
+      <with-param name="rate" query-param="rate" />
+      <with-param name="start_date" query-param="start_date" />
+      <with-param name="end_date" query-param="end_date" />
+      <with-param name="status" query-param="status" />
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="deleteCurrencyHistories">
+    <call-query href="deleteCurrencyHistoriesQuery">
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+</data>

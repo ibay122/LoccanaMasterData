@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="LoccanaMasterGetResponseSuccess" groupId="com.loccana.master.currency.history.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterGetResponseSuccess.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterGetResponseError" groupId="com.loccana.master.currency.history.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterGetResponseError.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterCurrencyHistoriesGetDetail" groupId="com.loccana.master.currency.history.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterCurrencyHistoriesGetDetail.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterCurrencyHistories" groupId="com.loccana.master.currency.history.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/LoccanaMasterCurrencyHistories.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterCurrencyHistories_swagger" groupId="com.loccana.master.currency.history.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterCurrencyHistories_swagger.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterCurrencyHistories_metadata" groupId="com.loccana.master.currency.history.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterCurrencyHistories_metadata.yaml</file>
+    </artifact>
+</artifacts>

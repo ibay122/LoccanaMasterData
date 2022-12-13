@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/loccana/master/currency_histories" name="LoccanaMasterCurrencyHistories" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST">
+        <inSequence>
+            <log description="debug start" level="custom">
+                <property expression="json-eval($)" name="debug"/>
+            </log>
+            <validate cache-schema="true" source="json-eval($)">
+                <schema key="conf:schema/currencyHistories_schema.json"/>
+                <on-fail>
+                    <property description="Error Message" expression="$ctx:ERROR_MESSAGE" name="message" scope="default" type="STRING"/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </on-fail>
+            </validate>
+            <log description="Log start" level="custom">
+                <property name="Log Message" value="Insert data currency histories"/>
+            </log>
+            <propertyGroup description="Parameter Input">
+                <property expression="json-eval($.currency_id)" name="currency_id" scope="default" type="STRING"/>
+                <property expression="json-eval($.rate)" name="rate" scope="default" type="STRING"/>
+                <property expression="json-eval($.start_date)" name="start_date" scope="default" type="STRING"/>
+                <property expression="json-eval($.end_date)" name="end_date" scope="default" type="STRING"/>
+                <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+            </propertyGroup>
+            <dataServiceCall description="Create currency histories" serviceName="LoccanaMasterCurrencyHistoriesDataService">
+                <operations type="single">
+                    <operation name="createCurrencyHistories">
+                        <param evaluator="xml" expression="get-property('currency_id')" name="currency_id"/>
+                        <param evaluator="xml" expression="get-property('rate')" name="rate"/>
+                        <param evaluator="xml" expression="get-property('start_date')" name="start_date"/>
+                        <param evaluator="xml" expression="get-property('end_date')" name="end_date"/>
+                        <param evaluator="xml" expression="get-property('currentDate')" name="created_at"/>
+                        <param evaluator="xml" expression="get-property('currentDate')" name="updated_at"/>
+                    </operation>
+                </operations>
+                <source type="inline"/>
+                <target type="body"/>
+            </dataServiceCall>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+            <property description="Result" expression="json-eval($)" name="result" scope="default" type="STRING"/>
+            <filter regex="false" source="boolean(get-property('result'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Gagal menambahkan currency histories."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </then>
+                <else>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Tambah currency histories berhasil."/>
+                    <property description="Success data" expression="json-eval($.return)" name="data" scope="default" type="STRING"/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterGetResponseError"/>
+        </faultSequence>
+    </resource>
+    <resource methods="GET" uri-template="/{id}">
+        <inSequence>
+            <property description="get currency histories Id" expression="get-property('uri.var.id')" name="currencyHistoriesId" scope="default" type="STRING"/>
+            <log description="Log start" level="custom">
+                <property expression="get-property('currencyHistoriesId')" name="Get detail currency histories id"/>
+            </log>
+            <sequence key="LoccanaMasterCurrencyHistoriesGetDetail"/>
+            <filter regex="false" source="boolean(get-property('data'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="currency histories tidak ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </then>
+                <else>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="currency histories ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterGetResponseError"/>
+        </faultSequence>
+    </resource>
+    <resource methods="PUT" uri-template="/{id}">
+        <inSequence>
+            <property description="get currency histories id" expression="get-property('uri.var.id')" name="currencyHistoriesId" scope="default" type="STRING"/>
+            <validate cache-schema="true" source="json-eval($)">
+                <schema key="conf:schema/currencyHistories_schema.json"/>
+                <on-fail>
+                    <property description="Error Message" expression="$ctx:ERROR_MESSAGE" name="message" scope="default" type="STRING"/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </on-fail>
+            </validate>
+            <propertyGroup description="Parameter Update">
+                <property expression="get-property('uri.var.id')" name="currencyHistoriesId" scope="default" type="STRING"/>
+                <property expression="json-eval($.currency_id)" name="currency_id" scope="default" type="STRING"/>
+                <property expression="json-eval($.rate)" name="rate" scope="default" type="STRING"/>
+                <property expression="json-eval($.start_date)" name="start_date" scope="default" type="STRING"/>
+                <property expression="json-eval($.end_date)" name="end_date" scope="default" type="STRING"/>
+                <property expression="json-eval($.status)" name="status" scope="default" type="STRING"/>
+                <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+            </propertyGroup>
+            <log description="Log start" level="custom">
+                <property expression="get-property('currencyHistoriesId')" name="Update currency histories id"/>
+            </log>
+            <sequence key="LoccanaMasterCurrencyHistoriesGetDetail"/>
+            <filter regex="false" source="boolean(get-property('data'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="currency histories tidak ditemukan."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </then>
+                <else>
+                    <property action="remove" name="data" scope="default"/>
+                </else>
+            </filter>
+            <dataServiceCall description="Update currency histories" serviceName="LoccanaMasterCurrencyHistoriesDataService">
+                <operations type="single">
+                    <operation name="updateCurrencyHistories">
+                        <param evaluator="xml" expression="get-property('currency_id')" name="currency_id"/>
+                        <param evaluator="xml" expression="get-property('rate')" name="rate"/>
+                        <param evaluator="xml" expression="get-property('start_date')" name="start_date"/>
+                        <param evaluator="xml" expression="get-property('end_date')" name="end_date"/>
+                        <param evaluator="xml" expression="get-property('status')" name="status"/>
+                        <param evaluator="xml" expression="get-property('currentDate')" name="updated_at"/>
+                        <param evaluator="xml" expression="get-property('currencyHistoriesId')" name="id"/>
+                    </operation>
+                </operations>
+                <source type="inline"/>
+                <target type="body"/>
+            </dataServiceCall>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+            <property description="Get update status" expression="json-eval($.UpdatedRowCount.id)" name="result" scope="default" type="STRING"/>
+            <log description="Log start" level="custom">
+                <property expression="get-property('result')" name="debug"/>
+            </log>
+            <filter regex="1" source="get-property('result')">
+                <then>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Update currency histories berhasil."/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </then>
+                <else>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Update currency histories gagal."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterResponseError"/>
+        </faultSequence>
+    </resource>
+    <resource methods="DELETE" uri-template="/{id}">
+        <inSequence>
+            <propertyGroup description="Parameter Update">
+                <property expression="get-property('uri.var.id')" name="currencyHistoriesId" scope="default" type="STRING"/>
+                <property expression="get-property('SYSTEM_DATE', 'yyyy-MM-dd HH:mm:ss')" name="currentDate" scope="default" type="STRING"/>
+            </propertyGroup>
+            <log description="Log start" level="custom">
+                <property expression="get-property('currencyHistoriesId')" name="Delete currency histories id"/>
+            </log>
+            <sequence key="LoccanaMasterCurrencyHistoriesGetDetail"/>
+            <filter regex="false" source="boolean(get-property('data'))">
+                <then>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="currency histories tidak ditemukan."/>
+                    <sequence key="LoccanaMasterResponseError"/>
+                </then>
+                <else>
+                    <property action="remove" name="data" scope="default"/>
+                </else>
+            </filter>
+            <dataServiceCall description="Delete currency histories" serviceName="LoccanaMasterCurrencyHistoriesDataService">
+                <operations type="single">
+                    <operation name="deleteCurrencyHistories">
+                        <param evaluator="xml" expression="get-property('currentDate')" name="updated_at"/>
+                        <param evaluator="xml" expression="get-property('currencyHistoriesId')" name="id"/>
+                    </operation>
+                </operations>
+                <source type="inline"/>
+                <target type="body"/>
+            </dataServiceCall>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+            <property description="Get update status" expression="json-eval($.UpdatedRowCount.id)" name="result" scope="default" type="STRING"/>
+            <filter regex="1" source="get-property('result')">
+                <then>
+                    <property description="Success Message" name="message" scope="default" type="STRING" value="Delete currency histories berhasil."/>
+                    <sequence key="LoccanaMasterGetResponseSuccess"/>
+                </then>
+                <else>
+                    <property description="Error Message" name="message" scope="default" type="STRING" value="Delete curreny histories gagal."/>
+                    <sequence key="LoccanaMasterGetResponseError"/>
+                </else>
+            </filter>
+        </inSequence>
+        <outSequence/>
+        <faultSequence>
+            <property description="ErrorMessage" expression="get-property('ERROR_MESSAGE')" name="message" scope="default" type="STRING"/>
+            <sequence key="LoccanaMasterGetResponseError"/>
+        </faultSequence>
+    </resource>
+</api>

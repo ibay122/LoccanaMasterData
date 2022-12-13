@@ -1,0 +1,12 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"currency_id": {
+			"type": "string"
+		}
+	},
+	"required": [
+		"currency_id"
+	]
+}
