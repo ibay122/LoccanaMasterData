@@ -1,0 +1,70 @@
+<data name="LoccanaMasterUserRolesDataService" serviceNamespace="" serviceGroup="" transports="http https">
+  <description />
+  <config id="DatasourceMasterData">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">root</property>
+  </config>
+  <query id="createUserRolesQuery" useConfig="DatasourceMasterData" returnGeneratedKeys="true" keyColumns="id">
+    <sql>INSERT INTO user_roles (role, created_at, updated_at) VALUES (:role, :created_at, :updated_at)</sql>
+    <param name="role" paramType="SCALAR" sqlType="STRING" />
+    <param name="created_at" paramType="SCALAR" sqlType="STRING" />
+    <param name="updated_at" paramType="SCALAR" sqlType="STRING" />
+    <result useColumnNumbers="true" element="return">
+      <element name="id" xsdType="integer" column="1" />
+    </result>
+  </query>
+  <query id="getUserRolesDetailQuery" useConfig="DatasourceMasterData">
+    <sql>SELECT id, role, created_at, updated_at FROM user_roles WHERE id = :id</sql>
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result outputType="json">{
+    "data": {
+        "id": "$id",
+        "role": "$role",
+        "created_by": "$created_by",
+        "created_date": "$created_date"
+    }
+}</result>
+  </query>
+  <query id="updateUserRolesQuery" useConfig="DatasourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE user_roles SET role = :role, updated_at = :updated_at WHERE id = :id</sql>
+    <param name="role" paramType="SCALAR" sqlType="STRING" />
+    <param name="updated_at" paramType="SCALAR" sqlType="STRING" />
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result element="UpdatedRowCount" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" requiredRoles="" />
+    </result>
+  </query>
+  <query id="deleteUserRolesQuery" useConfig="DatasourceMasterData" returnUpdatedRowCount="true">
+    <sql>DELETE FROM user_roles WHERE id = :id</sql>
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result useColumnNumbers="true" element="UpdatedRowCount">
+      <element name="id" xsdType="integer" column="1" requiredRoles="" />
+    </result>
+  </query>
+  <operation name="createUserRoles">
+    <call-query href="createUserRolesQuery">
+      <with-param name="role" query-param="role" />
+      <with-param name="created_at" query-param="created_at" />
+      <with-param name="updated_at" query-param="updated_at" />
+    </call-query>
+  </operation>
+  <operation name="getUserRolesDetail">
+    <call-query href="getUserRolesDetailQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="updateUserRoles">
+    <call-query href="updateUserRolesQuery">
+      <with-param name="role" query-param="role" />
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="deleteUserRoles">
+    <call-query href="deleteUserRolesQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+</data>
