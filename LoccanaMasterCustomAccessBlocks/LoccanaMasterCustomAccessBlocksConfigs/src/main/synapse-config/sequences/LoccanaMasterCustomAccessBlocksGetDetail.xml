@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="LoccanaMasterCustomAccessBlocksGetDetail" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <dataServiceCall description="Get custom access blocks detail" serviceName="LoccanaMasterCustomAccessBlocksDataService">
+        <operations type="single">
+            <operation name="getCustomAccessBlocksDetail">
+                <param evaluator="xml" expression="get-property('customAccessBlocksId')" name="id"/>
+            </operation>
+        </operations>
+        <source type="inline"/>
+        <target type="body"/>
+    </dataServiceCall>
+    <property expression="json-eval($)" name="resultData" scope="default" type="STRING"/>
+    <log description="Log start" level="custom">
+        <property expression="get-property('resultData')" name="Update custom access blocks id"/>
+    </log>
+    <filter regex="true" source="boolean(get-property('resultData'))">
+        <then>
+            <property expression="json-eval($.data)" name="data" scope="default" type="STRING"/>
+        </then>
+        <else/>
+    </filter>
+</sequence>

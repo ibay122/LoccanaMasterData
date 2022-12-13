@@ -1,0 +1,11 @@
+---
+key: "LoccanaMasterCustomAccessBlocks-1.0.0"
+name : "LoccanaMasterCustomAccessBlocks"
+displayName : "LoccanaMasterCustomAccessBlocks"
+description: "Sample API"
+version: "1.0.0"
+serviceUrl: "https://{MI_HOST}:{MI_PORT}/loccana/master/custom_access_blocks"
+definitionType: "OAS3"
+securityType: "BASIC"
+mutualSSLEnabled: false
+apiId : "null"

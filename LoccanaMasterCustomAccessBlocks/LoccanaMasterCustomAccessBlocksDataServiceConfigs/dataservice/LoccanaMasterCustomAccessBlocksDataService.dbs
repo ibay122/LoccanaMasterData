@@ -1,0 +1,74 @@
+<data name="LoccanaMasterCustomAccessBlocksDataService" serviceNamespace="" serviceGroup="" transports="http https">
+  <description />
+  <config id="DatasourceMasterData">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">root</property>
+  </config>
+  <query id="createCustomAccessBlocksQuery" useConfig="DatasourceMasterData" returnGeneratedKeys="true" keyColumns="id">
+    <sql>INSERT INTO custom_access_blocks (user_id, menu_id, created_at, updated_at) VALUES (:user_id, :menu_id, :created_at, :updated_at)</sql>
+    <param name="user_id" paramType="SCALAR" sqlType="STRING" />
+    <param name=" menu_id" paramType="SCALAR" sqlType="STRING" />
+    <param name=" created_at" paramType="SCALAR" sqlType="STRING" />
+    <param name=" updated_at" paramType="SCALAR" sqlType="STRING" />
+    <result useColumnNumbers="true" element="return">
+      <element name="id" xsdType="integer" column="1" />
+    </result>
+  </query>
+  <query id="getCustomAccessBlocksDetailQuery" useConfig="DatasourceMasterData">
+    <sql>SELECT id, user_id, menu_id, created_at, updated_at FROM custom_access_blocks WHERE id = :id</sql>
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result outputType="json">{
+    "data": {
+        "user_id": "$user_id",
+        "menu_id": "$menu_id",
+        "created_at": "$created_at",
+        "updated_at": "$updated_at"
+    }
+}</result>
+  </query>
+  <query id="updateCustomAccessBlocksQuery" useConfig="DatasourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE custom_access_blocks SET user_id = :user_id, menu_id = :menu_id, updated_at = :updated_at WHERE id = :id</sql>
+    <param name="user_id" paramType="SCALAR" sqlType="STRING" />
+    <param name="menu_id" paramType="SCALAR" sqlType="STRING" />
+    <param name="updated_at" paramType="SCALAR" sqlType="STRING" />
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result element="UpdatedRowCount" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" requiredRoles="" />
+    </result>
+  </query>
+  <query id="deleteCustomAccessBlocksQuery" useConfig="DatasourceMasterData" returnUpdatedRowCount="true">
+    <sql>DELETE FROM custom_access_blocks WHERE id = :id</sql>
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result useColumnNumbers="true" element="UpdatedRowCount">
+      <element name="id" xsdType="integer" column="1" requiredRoles="" />
+    </result>
+  </query>
+  <operation name="createCustomAccessBlocks">
+    <call-query href="createCustomAccessBlocksQuery">
+      <with-param name="user_id" query-param="user_id" />
+      <with-param name=" menu_id" query-param=" menu_id" />
+      <with-param name=" created_at" query-param=" created_at" />
+      <with-param name=" updated_at" query-param=" updated_at" />
+    </call-query>
+  </operation>
+  <operation name="getCustomAccessBlocksDetail">
+    <call-query href="getCustomAccessBlocksDetailQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="updateCustomAccessBlocks">
+    <call-query href="updateCustomAccessBlocksQuery">
+      <with-param name="user_id" query-param="user_id" />
+      <with-param name="menu_id" query-param="menu_id" />
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="deleteCustomAccessBlocks">
+    <call-query href="deleteCustomAccessBlocksQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+</data>
