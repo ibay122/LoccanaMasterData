@@ -1,0 +1,87 @@
+<data name="LoccanaMasterGroupsDataService" serviceNamespace="" serviceGroup="" transports="http https">
+  <description />
+  <config id="DatasourceMasterData">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">root</property>
+  </config>
+  <query id="createGroupsQuery" useConfig="DatasourceMasterData" returnGeneratedKeys="true" keyColumns="id">
+    <sql>INSERT INTO `groups` (`group`, `notes`, `region_id`, `level`, `created_by`, `created_date`) VALUES (:group, :notes, :region_id, :level, :created_by, :created_date)</sql>
+    <param name="group" paramType="SCALAR" sqlType="STRING" />
+    <param name="notes" paramType="SCALAR" sqlType="STRING" />
+    <param name="region_id" paramType="SCALAR" sqlType="STRING" />
+    <param name="level" paramType="SCALAR" sqlType="STRING" />
+    <param name="created_by" paramType="SCALAR" sqlType="STRING" />
+    <param name="created_date" paramType="SCALAR" sqlType="STRING" />
+    <result useColumnNumbers="true" element="return">
+      <element name="id" xsdType="integer" column="1" />
+    </result>
+  </query>
+  <query id="getGroupsDetailQuery" useConfig="DatasourceMasterData">
+    <sql>SELECT `id`,`group`,`notes`,`region_id`,`level`,`created_by`,`created_date` FROM `groups` WHERE status = 0 AND id = :id</sql>
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result outputType="json">{
+    "data": {
+        "group": "$group",
+        "notes": "$notes",
+        "region_id": "$region_id",
+        "level": "$level",
+        "status": "$status",
+        "created_by": "$created_by",
+        "created_date": "$created_date"
+    }
+}</result>
+  </query>
+  <query id="updateGroupsQuery" useConfig="DatasourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE `groups` SET `group` = :group, notes = :notes, region_id = :region_id, level = :level, status = :status, created_by = :created_by WHERE id = :id</sql>
+    <param name="group" paramType="SCALAR" sqlType="STRING" />
+    <param name="notes" paramType="SCALAR" sqlType="STRING" />
+    <param name="region_id" paramType="SCALAR" sqlType="STRING" />
+    <param name="level" paramType="SCALAR" sqlType="STRING" />
+    <param name="status" paramType="SCALAR" sqlType="STRING" />
+    <param name="created_by" paramType="SCALAR" sqlType="STRING" />
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result element="UpdatedRowCount" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" requiredRoles="" />
+    </result>
+  </query>
+  <query id="deleteGroupsQuery" useConfig="DatasourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE `groups` SET status = 1 WHERE id = :id</sql>
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result useColumnNumbers="true" element="UpdatedRowCount">
+      <element name="id" xsdType="integer" column="1" requiredRoles="" />
+    </result>
+  </query>
+  <operation name="createGroups">
+    <call-query href="createGroupsQuery">
+      <with-param name="group" query-param="group" />
+      <with-param name="notes" query-param="notes" />
+      <with-param name="region_id" query-param="region_id" />
+      <with-param name="level" query-param="level" />
+      <with-param name="created_by" query-param="created_by" />
+      <with-param name="created_date" query-param="created_date" />
+    </call-query>
+  </operation>
+  <operation name="getGroupsDetail">
+    <call-query href="getGroupsDetailQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="updateGroups">
+    <call-query href="updateGroupsQuery">
+      <with-param name="group" query-param="group" />
+      <with-param name="notes" query-param="notes" />
+      <with-param name="region_id" query-param="region_id" />
+      <with-param name="level" query-param="level" />
+      <with-param name="status" query-param="status" />
+      <with-param name="created_by" query-param="created_by" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="deleteGroups">
+    <call-query href="deleteGroupsQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+</data>

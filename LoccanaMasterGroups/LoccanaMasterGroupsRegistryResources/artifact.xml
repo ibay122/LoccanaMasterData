@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="groupsSchema_Validator_json" groupId="com.loccana.master.groups.resource" version="1.0.0" type="registry/resource" serverRole="EnterpriseIntegrator">
+        <item>
+            <file>groups_schema.json</file>
+            <path>/_system/config/schema</path>
+            <mediaType>application/json</mediaType>
+            <properties/>
+        </item>
+    </artifact>
+</artifacts>
