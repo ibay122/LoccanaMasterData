@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="LoccanaMasterItemQtysUpsert" groupId="com.example.resource" version="1.0.0" type="registry/resource" serverRole="EnterpriseIntegrator">
+        <item>
+            <file>LoccanaMasterItemQtysUpsert.json</file>
+            <path>/_system/governance/schema</path>
+            <mediaType>application/json</mediaType>
+            <properties/>
+        </item>
+    </artifact>
+</artifacts>

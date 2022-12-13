@@ -1,0 +1,61 @@
+<data transports="http https" serviceGroup="" serviceNamespace="" name="LoccanaMasterItemQtysDataService">
+  <description />
+  <config id="DatasourceMasterData">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">admin123</property>
+  </config>
+  <query id="createItemQtysQuery" useConfig="DatasourceMasterData">
+    <sql>INSERT INTO item_qty (item_id, base_qty, qty_pcs, unit_box, qty_receipt, qty_discount, qty_bonus, created_at, updated_at) VALUES (:item_id, :base_qty, :qty_pcs, :unit_box, :qty_receipt, :qty_discount, :qty_bonus, :created_at, :updated_at)</sql>
+    <param name="item_id" sqlType="INTEGER" />
+    <param name="base_qty" sqlType="STRING" />
+    <param name="qty_pcs" sqlType="STRING" />
+    <param name="unit_box" sqlType="STRING" />
+    <param name="qty_receipt" sqlType="STRING" />
+    <param name="qty_discount" sqlType="STRING" />
+    <param name="qty_bonus" sqlType="STRING" />
+    <param name="created_at" sqlType="STRING" />
+    <param name="updated_at" sqlType="STRING" />
+    <result useColumnNumbers="true" element="return">
+      <element name="id" xsdType="integer" column="1" />
+    </result>
+  </query>
+  <query id="getItemQtysQuery" useConfig="DatasourceMasterData">
+    <sql>SELECT item_id, base_qty, qty_pcs, unit_box, qty_receipt, qty_discount, qty_bonus, status_qty FROM item_qty
+			WHERE status_qty = 0 AND id = :id</sql>
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result outputType="json">{
+			"data":{
+			"item_id":"$item_id",
+			"base_qty":"$base_qty",
+			"qty_pcs":"$qty_pcs",
+			"unit_box":"$unit_box",
+			"qty_receipt":"$qty_receipt",
+			"qty_discount":"$qty_discount",
+			"qty_bonus":"$qty_bonus",
+			"status_qty":"$status_qty",
+			"created_at":"$created_at",
+			"updated_at":"$updated_at"
+			}
+			}</result>
+  </query>
+  <operation name="createItemQtys">
+    <call-query href="createItemQtysQuery">
+      <with-param name="item_id" query-param="item_id" />
+      <with-param name="base_qty" query-param="base_qty" />
+      <with-param name="qty_pcs" query-param="qty_pcs" />
+      <with-param name="unit_box" query-param="unit_box" />
+      <with-param name="qty_receipt" query-param="qty_receipt" />
+      <with-param name="qty_discount" query-param="qty_discount" />
+      <with-param name="qty_bonus" query-param="qty_bonus" />
+      <with-param name="created_at" query-param="created_at" />
+      <with-param name="updated_at" query-param="updated_at" />
+    </call-query>
+  </operation>
+  <operation name="getItemQtys">
+    <call-query href="getItemQtysQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+</data>

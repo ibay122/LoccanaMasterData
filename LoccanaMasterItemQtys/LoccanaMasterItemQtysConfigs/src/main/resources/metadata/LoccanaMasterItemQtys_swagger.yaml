@@ -1,0 +1,13 @@
+openapi: 3.0.1
+info:
+  title: LoccanaMasterItemQtys
+  description: API Definition of LoccanaMasterItemQtys
+  version: 1.0.0
+servers:
+- url: http://localhost:8290/loccana/master/iitem_qty
+paths:
+  /:
+    post:
+      responses:
+        default:
+          description: Default response
