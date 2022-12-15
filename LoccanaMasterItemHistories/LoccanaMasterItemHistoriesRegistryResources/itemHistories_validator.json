@@ -1,0 +1,27 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"item_id": {
+			"type": "string"
+		},
+		"item_receipt_detail_id": {
+			"type": "string"
+		},
+		"buy_price": {
+			"type": "string"
+		},
+		"qty_receipt": {
+			"type": "string"
+		},
+		"date_insert": {
+			"type": "string"
+		},
+		"qty_bonus": {
+			"type": "string"
+		},
+		"qty_discount": {
+			"type": "string"
+		}
+	}
+}

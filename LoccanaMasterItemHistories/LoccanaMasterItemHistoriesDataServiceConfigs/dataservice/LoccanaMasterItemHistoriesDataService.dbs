@@ -1,0 +1,104 @@
+<data name="LoccanaMasterItemHistoriesDataService" serviceNamespace="" serviceGroup="" transports="http https">
+  <description />
+  <config id="DatasourceMasterData">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">root</property>
+  </config>
+  <query id="createItemHistoriesQuery" useConfig="DatasourceMasterData" returnGeneratedKeys="true" keyColumns="id">
+    <sql>INSERT INTO item_history (item_id, item_receipt_detail_id, buy_price, qty_receipt, date_insert, qty_bonus, qty_discount, created_at, updated_at) VALUES (:item_id, :item_receipt_detail_id, :buy_price, :qty_receipt, :date_insert, :qty_bonus, :qty_discount, :created_at, :updated_at) </sql>
+    <param name="item_id" paramType="SCALAR" sqlType="STRING" />
+    <param name=" item_receipt_detail_id" paramType="SCALAR" sqlType="STRING" />
+    <param name=" buy_price" paramType="SCALAR" sqlType="STRING" />
+    <param name=" qty_receipt" paramType="SCALAR" sqlType="STRING" />
+    <param name=" date_insert" paramType="SCALAR" sqlType="STRING" />
+    <param name=" qty_bonus" paramType="SCALAR" sqlType="STRING" />
+    <param name=" qty_discount" paramType="SCALAR" sqlType="STRING" />
+    <param name=" created_at" paramType="SCALAR" sqlType="STRING" />
+    <param name=" updated_at" paramType="SCALAR" sqlType="STRING" />
+    <result useColumnNumbers="true" element="return">
+      <element name="id" xsdType="integer" column="1" />
+    </result>
+  </query>
+  <query id="getItemHistoriesDetailQuery" useConfig="DatasourceMasterData">
+    <sql>SELECT item_id, item_receipt_detail_id, buy_price, qty_receipt, date_insert, qty_bonus, qty_discount, status, created_at, updated_at FROM item_history WHERE status = 1 AND id = :id</sql>
+    <param name="id" paramType="SCALAR" sqlType="STRING" type="IN" optional="false" />
+    <result outputType="json">{
+    "data": {
+        "item_id": "$item_id",
+        "item_receipt_detail_id": "$item_receipt_detail_id",
+        "buy_price": "$buy_price",
+        "qty_receipt": "$qty_receipt",
+        "date_insert": "$date_insert",
+        "qty_bonus": "$qty_bonus",
+        "qty_discount": "$qty_discount",
+        "status": "$status",
+        "created_at": "$created_at",
+        "updated_at": "$updated_at"
+    }
+}</result>
+  </query>
+  <query id="updateItemHistoriesQuery" useConfig="DatasourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE item_history SET item_id = :item_id, item_receipt_detail_id = :item_receipt_detail_id, buy_price = :buy_price, qty_receipt = :qty_receipt, date_insert = :date_insert, qty_bonus = :qty_bonus, qty_discount = :qty_discount, status = :status, updated_at = :updated_at WHERE id = :id</sql>
+    <param name="item_id" paramType="SCALAR" sqlType="STRING" />
+    <param name="item_receipt_detail_id" paramType="SCALAR" sqlType="STRING" />
+    <param name="buy_price" paramType="SCALAR" sqlType="STRING" />
+    <param name="qty_receipt" paramType="SCALAR" sqlType="STRING" />
+    <param name="date_insert" paramType="SCALAR" sqlType="STRING" />
+    <param name="qty_bonus" paramType="SCALAR" sqlType="STRING" />
+    <param name="qty_discount" paramType="SCALAR" sqlType="STRING" />
+    <param name="status" paramType="SCALAR" sqlType="STRING" />
+    <param name="updated_at" paramType="SCALAR" sqlType="STRING" />
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result element="UpdatedRowCount" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" requiredRoles="" />
+    </result>
+  </query>
+  <query id="deleteItemHistoriesQuery" useConfig="DatasourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE item_history SET status = 0, updated_at = :updated_at WHERE id = :id</sql>
+    <param name="updated_at" paramType="SCALAR" sqlType="STRING" />
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result useColumnNumbers="true" element="UpdatedRowCount">
+      <element name="id" xsdType="integer" column="1" requiredRoles="" />
+    </result>
+  </query>
+  <operation name="createItemHistories">
+    <call-query href="createItemHistoriesQuery">
+      <with-param name="item_id" query-param="item_id" />
+      <with-param name=" item_receipt_detail_id" query-param=" item_receipt_detail_id" />
+      <with-param name=" buy_price" query-param=" buy_price" />
+      <with-param name=" qty_receipt" query-param=" qty_receipt" />
+      <with-param name=" date_insert" query-param=" date_insert" />
+      <with-param name=" qty_bonus" query-param=" qty_bonus" />
+      <with-param name=" qty_discount" query-param=" qty_discount" />
+      <with-param name=" created_at" query-param=" created_at" />
+      <with-param name=" updated_at" query-param=" updated_at" />
+    </call-query>
+  </operation>
+  <operation name="getItemHistoriesDetail">
+    <call-query href="getItemHistoriesDetailQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="updateItemHistories">
+    <call-query href="updateItemHistoriesQuery">
+      <with-param name="item_id" query-param="item_id" />
+      <with-param name="item_receipt_detail_id" query-param="item_receipt_detail_id" />
+      <with-param name="buy_price" query-param="buy_price" />
+      <with-param name="qty_receipt" query-param="qty_receipt" />
+      <with-param name="date_insert" query-param="date_insert" />
+      <with-param name="qty_bonus" query-param="qty_bonus" />
+      <with-param name="qty_discount" query-param="qty_discount" />
+      <with-param name="status" query-param="status" />
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="deleteItemHistories">
+    <call-query href="deleteItemHistoriesQuery">
+    <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+</data>
