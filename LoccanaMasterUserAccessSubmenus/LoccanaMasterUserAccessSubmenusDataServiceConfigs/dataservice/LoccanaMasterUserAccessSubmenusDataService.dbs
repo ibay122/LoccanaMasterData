@@ -1,0 +1,78 @@
+<data transports="http https" serviceGroup="" serviceNamespace="" name="LoccanaMasterUserAccessSubmenusDataService">
+  <description />
+  <config id="DataSourceMasterData">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">admin123</property>
+  </config>
+  <query id="createUserAccessSubmenusQuery" useConfig="DataSourceMasterData" returnGeneratedKeys="true" keyColumns="id">
+    <sql>INSERT INTO user_access_submenus (id_role, id_submenu, created_at, updated_at) VALUES (:id_role,:id_submenu,:created_at,:updated_at)</sql>
+    <param name="id_role" sqlType="STRING" />
+    <param name="id_submenu" sqlType="STRING" />
+    <param name="created_at" sqlType="STRING" />
+    <param name="updated_at" sqlType="STRING" />
+    <result element="return" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+  </query>
+  <query id="getUserAccessSubmenusDetailQuery" useConfig="DataSourceMasterData">
+    <sql>SELECT id,id_role,id_submenu,created_at,updated_at FROM user_access_submenus WHERE id = :id</sql>
+    <param name="id" sqlType="STRING" paramType="SCALAR" />
+    <result outputType="json">{
+   "data":{
+            "id":"$id",
+            "id_role":"$id_role",
+            "id_submenu":"$id_submenu",
+            
+            "created_at":"$created_at",
+            "updated_at":"$updated_at"
+   }
+}</result>
+  </query>
+  <query id="updateUserAccessSubmenusQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE user_access_submenus SET id_role = :id_role,id_submenu = :id_submenu, updated_at = :updated_at WHERE id = :id</sql>
+    <param name="id_role" sqlType="STRING" paramType="SCALAR" />
+    <param name="id_submenu" sqlType="STRING" paramType="SCALAR" />
+    <param name="updated_at" sqlType="STRING" paramType="SCALAR" />
+    <param name="id" sqlType="STRING" paramType="SCALAR" />
+    <result element="UpdatedRowCount" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+  </query>
+  <query id="deleteUserAccessSubmenusQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+    <sql>DELETE FROM user_access_submenus WHERE id = :id</sql>
+    <result element="UpdatedRowCount" useColumnNumbers="true" rowName="">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+    
+    <param name="id" sqlType="STRING" />
+  </query>
+  <operation name="createUserAccessSubmenus">
+    <call-query href="createUserAccessSubmenusQuery">
+      <with-param name="id_role" query-param="id_role" />
+      <with-param name="id_submenu" query-param="id_submenu" />
+      <with-param name="created_at" query-param="created_at" />
+      <with-param name="updated_at" query-param="updated_at" />
+    </call-query>
+  </operation>
+  <operation name="getUserAccessSubmenusDetail">
+    <call-query href="getUserAccessSubmenusDetailQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="updateUserAccessSubmenus">
+    <call-query href="updateUserAccessSubmenusQuery">
+      <with-param name="id_role" query-param="id_role" />
+      <with-param name="id_submenu" query-param="id_submenu" />
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="deleteUserAccessSubmenus">
+    <call-query href="deleteUserAccessSubmenusQuery">
+      
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+</data>

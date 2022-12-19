@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="LoccanaMasterUserAccessSubmenusUpsert" groupId="com.loccana.master.user_access_submenus.resource" version="1.0.0" type="registry/resource" serverRole="EnterpriseIntegrator">
+        <item>
+            <file>LoccanaMasterUserAccessSubmenusUpsert.json</file>
+            <path>/_system/config/schema</path>
+            <mediaType>application/json</mediaType>
+            <properties/>
+        </item>
+    </artifact>
+</artifacts>
