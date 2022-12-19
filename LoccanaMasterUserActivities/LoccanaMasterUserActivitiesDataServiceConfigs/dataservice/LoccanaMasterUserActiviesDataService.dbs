@@ -1,0 +1,85 @@
+<data name="LoccanaMasterUserActivitiesDataService" serviceNamespace="" serviceGroup="" transports="http https">
+  <description />
+  <config id="DataSourceMasterData">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">admin123</property>
+  </config>
+  <query id="createUserActivitiesQuery" useConfig="DataSourceMasterData" returnGeneratedKeys="true" keyColumns="id">
+    <sql>INSERT INTO user_activities (id_user, menu, aktivitas, keterangan, created_at, updated_at) VALUES (:id_user,:menu,:aktivitas,:keterangan,:created_at,:updated_at)</sql>
+    <param name="id_user" sqlType="STRING" />
+    <param name="menu" sqlType="STRING" />
+    <param name="aktivitas" sqlType="STRING" />
+    <param name="keterangan" sqlType="STRING" />
+    <param name="created_at" sqlType="STRING" />
+    <param name="updated_at" sqlType="STRING" />
+    <result element="return" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+  </query>
+  <query id="getUserActivitiesDetailQuery" useConfig="DataSourceMasterData">
+    <sql>SELECT id,menu,aktivitas,keterangan,created_at,updated_at FROM user_activities WHERE id = :id</sql>
+    <param name="id" sqlType="STRING" paramType="SCALAR" />
+    <result outputType="json">{
+   "data":{
+            "id":"$id",
+            "id_user":"$id_user",
+            "menu":"$menu",
+            "aktivitas":"$aktivitas",
+            "keterangan":"$keterangan",
+            "created_at":"$created_at",
+            "updated_at":"$updated_at"
+   }
+}</result>
+  </query>
+  <query id="updateUserActivitiesQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE user_activities SET id_user = :id_user,menu = :menu,aktivitas = :aktivitas,keterangan = :keterangan, updated_at = :updated_at WHERE id = :id</sql>
+    <param name="id_user" sqlType="STRING" paramType="SCALAR" />
+    <param name="menu" sqlType="STRING" paramType="SCALAR" />
+    <param name="aktivitas" sqlType="STRING" paramType="SCALAR" />
+    <param name="keterangan" sqlType="STRING" paramType="SCALAR" />
+    <param name="updated_at" sqlType="STRING" paramType="SCALAR" />
+    <param name="id" sqlType="STRING" paramType="SCALAR" />
+    <result element="UpdatedRowCount" useColumnNumbers="true" rowName="">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+  </query>
+  <query id="deleteUserActivitiesQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+    <sql>DELETE FROM user_activities where id = :id</sql>
+    <result element="UpdatedRowCount" useColumnNumbers="true" rowName="">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+    <param name="id" sqlType="STRING" />
+  </query>
+  <operation name="createUserActivities">
+    <call-query href="createUserActivitiesQuery">
+      <with-param name="id_user" query-param="id_user" />
+      <with-param name="menu" query-param="menu" />
+      <with-param name="aktivitas" query-param="aktivitas" />
+      <with-param name="keterangan" query-param="keterangan" />
+      <with-param name="created_at" query-param="created_at" />
+      <with-param name="updated_at" query-param="updated_at" />
+    </call-query>
+  </operation>
+  <operation name="getUserActivitiesDetail">
+    <call-query href="getUserActivitiesDetailQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="updateUserActivities">
+    <call-query href="updateUserActivitiesQuery">
+      <with-param name="id_user" query-param="id_user" />
+      <with-param name="menu" query-param="menu" />
+      <with-param name="aktivitas" query-param="aktivitas" />
+      <with-param name="keterangan" query-param="keterangan" />
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="deleteUserActivities">
+    <call-query href="deleteUserActivitiesQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+</data>
