@@ -1,23 +1,23 @@
-<data name="MasterUomsDataService" serviceNamespace="" serviceGroup="com.loccana.group.uoms" transports="http https">
+<data transports="http https" serviceGroup="" serviceNamespace="" name="MasterUomsDataService">
   <description />
-  <config id="DataSourceMasterData">
+  <config id="DatasourceMasterData">
     <property name="driverClassName">com.mysql.jdbc.Driver</property>
     <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
-    <property name="username">root</property>
-    <property name="password">root</property>
+    <property name="username">admin</property>
+    <property name="password">admin123</property>
   </config>
-  <query id="createUomsQuery" useConfig="DataSourceMasterData" returnGeneratedKeys="true" keyColumns="id">
+  <query id="createUomsQuery" keyColumns="id" returnGeneratedKeys="true" useConfig="DatasourceMasterData">
     <sql>INSERT INTO uom (name,symbol,description,created_at,updated_at) VALUES (:name,:symbol,:description,:created_at,:updated_at)</sql>
     <param name="name" sqlType="STRING" />
     <param name="symbol" sqlType="STRING" />
     <param name="description" sqlType="STRING" />
     <param name="created_at" sqlType="STRING" />
     <param name="updated_at" sqlType="STRING" />
-    <result element="return" useColumnNumbers="true">
-      <element name="id" column="1" xsdType="integer" />
+    <result useColumnNumbers="true" element="return">
+      <element name="id" xsdType="integer" column="1" />
     </result>
   </query>
-  <query id="updateUomsQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+  <query id="updateUomsQuery" useConfig="DatasourceMasterData" returnUpdatedRowCount="true">
     <sql>UPDATE uom SET name = :name,symbol = :symbol,description = :description,status = :status, updated_at = :updated_at WHERE id = :id</sql>
     <param name="name" sqlType="STRING" paramType="SCALAR" />
     <param name="symbol" sqlType="STRING" paramType="SCALAR" />
@@ -25,8 +25,8 @@
     <param name="status" sqlType="STRING" paramType="SCALAR" />
     <param name="updated_at" sqlType="STRING" paramType="SCALAR" />
     <param name="id" sqlType="STRING" paramType="SCALAR" />
-    <result element="UpdatedRowCount" useColumnNumbers="true" rowName="">
-      <element name="id" column="1" xsdType="integer" />
+    <result useColumnNumbers="true" element="UpdatedRowCount" rowName="">
+      <element name="id" xsdType="integer" column="1" />
     </result>
     <result useColumnNumbers="true" outputType="json">{
    "data":{
@@ -40,7 +40,7 @@
    }
 }</result>
   </query>
-  <query id="getUomsDetailQuery" useConfig="DataSourceMasterData">
+  <query id="getUomsDetailQuery" useConfig="DatasourceMasterData">
     <sql>SELECT id,name,symbol,description,status,created_at,updated_at FROM uom WHERE status = 0 AND id = :id</sql>
     <param name="id" sqlType="STRING" paramType="SCALAR" />
     <result outputType="json">{
@@ -55,10 +55,10 @@
    }
 }</result>
   </query>
-  <query id="deleteUomsQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+  <query id="deleteUomsQuery" useConfig="DatasourceMasterData" returnUpdatedRowCount="true">
     <sql>UPDATE uom SET status = 1,updated_at = :updated_at where id = :id</sql>
-    <result element="UpdatedRowCount" useColumnNumbers="true" rowName="">
-      <element name="id" column="1" xsdType="integer" />
+    <result useColumnNumbers="true" element="UpdatedRowCount" rowName="">
+      <element name="id" xsdType="integer" column="1" />
     </result>
     <param name="updated_at" sqlType="STRING" />
     <param name="id" sqlType="STRING" />

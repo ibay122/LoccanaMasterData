@@ -4,12 +4,9 @@
     "properties": {
         "name": {
             "type": "string"
-        },
-        "symbol": {
-            "type": "string"
         }
     },
     "required": [
-        "name", "symbol"
+        "name"
     ]
 }

@@ -3,13 +3,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.example</groupId>
+    <groupId>com.loccana.master.uom</groupId>
     <artifactId>LoccanaMasterUoms</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
   </parent>
   <groupId>com.example</groupId>
   <artifactId>LoccanaMasterUomsDataService</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>pom</packaging>
   <name>LoccanaMasterUomsDataService</name>
   <description>LoccanaMasterUomsDataService</description>

@@ -11,11 +11,11 @@
     <artifact name="LoccanaMasterUomsGetDetail" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/LoccanaMasterUomsGetDetail.xml</file>
     </artifact>
-    <artifact name="LoccanaMasterGetResponseSuccess" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
-        <file>src/main/synapse-config/sequences/LoccanaMasterGetResponseSuccess.xml</file>
+    <artifact name="LoccanaMasterUomsgetResponseSuccess" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterUomsgetResponseSuccess.xml</file>
     </artifact>
-    <artifact name="LoccanaMasterGetResponseError" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
-        <file>src/main/synapse-config/sequences/LoccanaMasterGetResponseError.xml</file>
+    <artifact name="LoccanaMasterUomsGetResponseError" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterUomsGetResponseError.xml</file>
     </artifact>
     <artifact name="LoccanaMasterUomsGetResponseSuccess" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/LoccanaMasterUomsGetResponseSuccess.xml</file>
