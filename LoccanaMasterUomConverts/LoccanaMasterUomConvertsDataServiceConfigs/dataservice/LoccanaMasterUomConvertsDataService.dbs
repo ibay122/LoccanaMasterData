@@ -1,0 +1,72 @@
+<data name="LoccanaMasterUomConvertsDataService" serviceNamespace="" serviceGroup="" transports="http https">
+  <description />
+  <config id="DataSourceMasterData">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">admin123</property>
+  </config>
+  <query id="createUomConvertsQuery" useConfig="DataSourceMasterData" returnGeneratedKeys="true" keyColumns="id">
+    <sql>INSERT INTO uom_convert (uom_id, uom_parent_id, convertion) VALUES (:uom_id, :uom_parent_id, :convertion)</sql>
+    <param name="uom_id" paramType="SCALAR" sqlType="STRING" />
+    <param name="uom_parent_id" paramType="SCALAR" sqlType="STRING" />
+    <param name="convertion" paramType="SCALAR" sqlType="STRING" />
+    <result useColumnNumbers="true" element="return">
+      <element name="id" xsdType="integer" column="1" />
+    </result>
+  </query>
+  <query id="getUomConvertsDetailQuery" useConfig="DataSourceMasterData">
+    <sql>SELECT id, uom_id, uom_parent_id, convertion FROM uom_convert WHERE id = :id</sql>
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result outputType="json">{
+    "data": {
+        "id": "$id",
+        "uom_id": "$uom_id",
+        "uom_parent_id": "$uom_parent_id",
+        "convertion": "$convertion"
+    }
+}</result>
+  </query>
+  <query id="updateUomConvertsQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE uom_convert SET uom_id = :uom_id,uom_parent_id = :uom_parent_id,convertion = :convertion WHERE id = :id</sql>
+    <param name="uom_id" paramType="SCALAR" sqlType="STRING" />
+    <param name="uom_parent_id" paramType="SCALAR" sqlType="STRING" />
+    <param name="convertion" paramType="SCALAR" sqlType="STRING" />
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result useColumnNumbers="true" element="UpdatedRowCount">
+      <element name="id" xsdType="integer" column="1" />
+    </result>
+  </query>
+  <query id="deleteUomConvertsQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+    <sql>DELETE FROM uom_convert WHERE id = :id</sql>
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result useColumnNumbers="true" element="UpdatedRowCount">
+      <element name="id" xsdType="integer" column="1" requiredRoles="" />
+    </result>
+  </query>
+  <operation name="createUomConverts">
+    <call-query href="createUomConvertsQuery">
+      <with-param name="uom_id" query-param="uom_id" />
+      <with-param name="uom_parent_id" query-param="uom_parent_id" />
+      <with-param name="convertion" query-param="convertion" />
+    </call-query>
+  </operation>
+  <operation name="getUomConvertsDetail">
+    <call-query href="getUomConvertsDetailQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="deleteUomConverts">
+    <call-query href="deleteUomConvertsQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="updateUomConverts">
+    <call-query href="updateUomConvertsQuery">
+      <with-param name="uom_id" query-param="uom_id" />
+      <with-param name="uom_parent_id" query-param="uom_parent_id" />
+      <with-param name="convertion" query-param="convertion" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+</data>
