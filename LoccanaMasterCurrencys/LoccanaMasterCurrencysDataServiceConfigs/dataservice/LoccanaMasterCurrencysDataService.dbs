@@ -1,0 +1,85 @@
+<data transports="http https" serviceGroup="" serviceNamespace="" name="LoccanaMasterCurrencysDataService">
+  <description />
+  <config id="DataSourceMasterData">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">admin123</property>
+  </config>
+  <query id="getCurrencysDetailQuery" useConfig="DataSourceMasterData">
+    <sql>SELECT id,name,symbol,code,status,created_at,updated_at FROM currency WHERE status = 1 AND id = :id</sql>
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result outputType="json">{
+   "data":{
+            "id":"$id",
+            "name":"$name",
+            "symbol":"$symbol",
+            "code":"$code",
+            "status":"$status",
+            "created_at":"$created_at",
+            "updated_at":"$updated_at"
+   }
+}</result>
+  </query>
+  <query id="createCurrencysQuery" useConfig="DataSourceMasterData" returnGeneratedKeys="true" keyColumns="id">
+    <sql>INSERT INTO currency (name,symbol,code,created_at,updated_at) VALUES (:name,:symbol,:code,:created_at,:updated_at)</sql>
+    <param name="name" sqlType="STRING" />
+    <param name="symbol" sqlType="STRING" />
+    <param name="code" sqlType="STRING" />
+    <param name="created_at" sqlType="STRING" />
+    <param name="updated_at" sqlType="STRING" />
+    <result element="return" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+  </query>
+  <query id="updateCurrencysQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE currency SET name = :name,symbol = :symbol,code = :code,status = :status, updated_at = :updated_at WHERE id = :id</sql>
+    <param name="name" paramType="SCALAR" sqlType="STRING" />
+    <param name="symbol" paramType="SCALAR" sqlType="STRING" />
+    <param name="code" paramType="SCALAR" sqlType="STRING" />
+    <param name="status" paramType="SCALAR" sqlType="STRING" />
+    <param name="updated_at" paramType="SCALAR" sqlType="STRING" />
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result element="UpdatedRowCount" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+  </query>
+  <query id="deleteCurrencysQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE currency SET status = 0,updated_at = :updated_at where id = :id</sql>
+    <result element="UpdatedRowCount" useColumnNumbers="true" rowName="">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+    <param name="updated_at" sqlType="STRING" />
+    <param name="id" sqlType="STRING" />
+  </query>
+  <operation name="getCurrencysDetail">
+    <call-query href="getCurrencysDetailQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="createCurrencys">
+    <call-query href="createCurrencysQuery">
+      <with-param name="name" query-param="name" />
+      <with-param name="symbol" query-param="symbol" />
+      <with-param name="code" query-param="code" />
+      <with-param name="created_at" query-param="created_at" />
+      <with-param name="updated_at" query-param="updated_at" />
+    </call-query>
+  </operation>
+  <operation name="updateCurrencys">
+    <call-query href="updateCurrencysQuery">
+      <with-param name="name" query-param="name" />
+      <with-param name="symbol" query-param="symbol" />
+      <with-param name="code" query-param="code" />
+      <with-param name="status" query-param="status" />
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="deleteCurrencys">
+    <call-query href="deleteCurrencysQuery">
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+</data>
