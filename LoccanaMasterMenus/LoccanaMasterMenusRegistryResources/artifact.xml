@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="LoccanaMasterMenusUpsert" groupId="com.loccana.master.menus.resource" version="1.0.0" type="registry/resource" serverRole="EnterpriseIntegrator">
+        <item>
+            <file>LoccanaMasterMenusUpsert.json</file>
+            <path>/_system/config/schema</path>
+            <mediaType>application/json</mediaType>
+            <properties/>
+        </item>
+    </artifact>
+</artifacts>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="LoccanaMasterMenus" groupId="com.loccana.master.menus.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/LoccanaMasterMenus.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterMenus_swagger" groupId="com.loccana.master.menus.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterMenus_swagger.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterMenus_metadata" groupId="com.loccana.master.menus.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterMenus_metadata.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterGetResponseError" groupId="com.loccana.master.menus.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterGetResponseError.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterGetResponseSuccess" groupId="com.loccana.master.menus.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterGetResponseSuccess.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterMenusGetDetail" groupId="com.loccana.master.menus.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterMenusGetDetail.xml</file>
+    </artifact>
+</artifacts>

@@ -1,0 +1,92 @@
+<data transports="http https" serviceGroup="" serviceNamespace="" name="LoccanaMasterMenusDataService">
+  <description />
+  <config id="DataSourceMasterData">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">admin123</property>
+  </config>
+  <query useConfig="DataSourceMasterData" returnGeneratedKeys="true" keyColumns="id" id="createMenusQuery">
+    <sql>INSERT INTO menus (parent,name,url,icon,sequence,created_at,updated_at) VALUES (:parent,:name,:url,:icon,:sequence,:created_at,:updated_at)</sql>
+    <param name="parent" sqlType="STRING" />
+    <param name="name" sqlType="STRING" />
+    <param name="url" sqlType="STRING" />
+    <param name="icon" sqlType="STRING" />
+    <param name="sequence" sqlType="STRING" />
+    <param name="created_at" sqlType="STRING" />
+    <param name="updated_at" sqlType="STRING" />
+    <result element="return" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+  </query>
+  <query useConfig="DataSourceMasterData" id="getMenusDetailQuery">
+    <sql>SELECT id,parent,name,url,icon,sequence,created_at,updated_at FROM menus WHERE id = :id</sql>
+    <param name="id" sqlType="STRING" paramType="SCALAR" />
+    <result outputType="json">{
+   "data":{
+            "id":"$id",
+            "parent":"$parent",
+            "name":"$name",
+            "url":"$url",
+            "icon":"$icon",
+            "sequence":"$sequence",
+            "created_at":"$created_at",
+            "updated_at":"$updated_at"
+   }
+}</result>
+  </query>
+  <query useConfig="DataSourceMasterData" id="updateMenusQuery" returnUpdatedRowCount="true">
+    <sql>UPDATE menus SET parent = :parent,name = :name,url = :url,icon = :icon,sequence = :sequence,updated_at = :updated_at WHERE id = :id</sql>
+    <param name="parent" sqlType="STRING" paramType="SCALAR" />
+    <param name="name" sqlType="STRING" paramType="SCALAR" />
+    <param name="url" sqlType="STRING" paramType="SCALAR" />
+    <param name="icon" sqlType="STRING" paramType="SCALAR" />
+    <param name="sequence" sqlType="STRING" paramType="SCALAR" />
+    <param name="updated_at" sqlType="STRING" paramType="SCALAR" />
+    <param name="id" sqlType="STRING" paramType="SCALAR" />
+    <result element="UpdatedRowCount" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+  </query>
+  <query useConfig="DataSourceMasterData" id="deleteMenusQuery" returnUpdatedRowCount="true">
+    <sql>UPDATE menus SET status = 1,updated_at = :updated_at where id = :id</sql>
+    <result element="UpdatedRowCount" useColumnNumbers="true" rowName="">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+    <param name="updated_at" sqlType="STRING" />
+    <param name="id" sqlType="STRING" />
+  </query>
+  <operation name="createMenus">
+    <call-query href="createMenusQuery">
+      <with-param name="parent" query-param="parent" />
+      <with-param name="name" query-param="name" />
+      <with-param name="url" query-param="url" />
+      <with-param name="icon" query-param="icon" />
+      <with-param name="sequence" query-param="sequence" />
+      <with-param name="created_at" query-param="created_at" />
+      <with-param name="updated_at" query-param="updated_at" />
+    </call-query>
+  </operation>
+  <operation name="getMenusDetail">
+    <call-query href="getMenusDetailQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="updateMenus">
+    <call-query href="updateMenusQuery">
+      <with-param name="parent" query-param="parent" />
+      <with-param name="name" query-param="name" />
+      <with-param name="url" query-param="url" />
+      <with-param name="icon" query-param="icon" />
+      <with-param name="sequence" query-param="sequence" />
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="deleteMenus">
+    <call-query href="deleteMenusQuery">
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+</data>
