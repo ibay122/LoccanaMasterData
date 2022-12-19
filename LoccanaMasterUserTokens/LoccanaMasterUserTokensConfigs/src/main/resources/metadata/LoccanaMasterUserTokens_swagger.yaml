@@ -1,0 +1,24 @@
+openapi: 3.0.1
+info:
+  title: LoccanaMasterUserTokens
+  description: API Definition of LoccanaMasterUserTokens
+  version: 1.0.0
+servers:
+- url: http://localhost:8290/loccana/master/user_token
+paths:
+  /:
+    post:
+      responses:
+        default:
+          description: Default response
+  /{id}:
+    get:
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          description: Default response

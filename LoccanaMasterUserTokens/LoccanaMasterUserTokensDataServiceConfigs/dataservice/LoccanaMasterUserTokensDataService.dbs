@@ -1,0 +1,46 @@
+<data transports="http https" serviceGroup="" serviceNamespace="" name="LoccanaMasterUserTokensDataService">
+  <description />
+  <config id="DataSourceMasterData">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">admin123</property>
+  </config>
+  <query id="createUserTokensQuery" useConfig="DataSourceMasterData" returnGeneratedKeys="true" keyColumns="id">
+    <sql>INSERT INTO user_token (email,token,created_at,updated_at) VALUES (:email,:token,:created_at,:updated_at)</sql>
+    <param name="email" sqlType="STRING" />
+    <param name="token" sqlType="STRING" />
+    <param name="created_at" sqlType="STRING" />
+    <param name="updated_at" sqlType="STRING" />
+    <result element="return" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+  </query>
+  <query id="getUserTokensDetailQuery" useConfig="DataSourceMasterData">
+    <sql>SELECT id,email,token,created_at,updated_at FROM user_token WHERE id = :id</sql>
+    <param name="id" sqlType="STRING" paramType="SCALAR" />
+    <result outputType="json">{
+   "data":{
+            "id":"$id",
+            "email":"$email",
+            "coa":"$coa",
+            "token":"$token",
+            "created_at":"$created_at",
+            "updated_at":"$updated_at"
+   }
+}</result>
+  </query>
+  <operation name="createUserTokens">
+    <call-query href="createUserTokensQuery">
+      <with-param name="email" query-param="email" />
+      <with-param name="token" query-param="token" />
+      <with-param name="created_at" query-param="created_at" />
+      <with-param name="updated_at" query-param="updated_at" />
+    </call-query>
+  </operation>
+  <operation name="getUserTokensDetail">
+    <call-query href="getUserTokensDetailQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+</data>
