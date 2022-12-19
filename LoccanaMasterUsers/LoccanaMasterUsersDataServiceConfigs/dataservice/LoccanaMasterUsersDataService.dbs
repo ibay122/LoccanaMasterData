@@ -1,0 +1,173 @@
+<data transports="http https" serviceGroup="" serviceNamespace="" name="LoccanaMasterUsersDataService">
+  <description />
+  <config id="DataSourceMasterData">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">admin123</property>
+  </config>
+  <query id="createUsersQuery" useConfig="DataSourceMasterData" returnGeneratedKeys="true" keyColumns="id">
+    <sql>INSERT INTO users (username, password, name, image, place_of_birth, date_of_birth, religion, address, no_hp, email, email_status, email_code, sms_status, sms_code, status_access, created_by, region, role_id, type_account_id, is_active, is_expired, created_at, updated_at)
+     VALUES (:username,:password,:name,:image,:place_of_birth,:date_of_birth,:religion,:address,:no_hp,:email,:email_status,:email_code,:sms_status,:sms_code,:status_access,:created_by,:region,:role_id,:type_account_id,:is_active,:is_expired,:created_at,:updated_at)</sql>
+    <param name="username" sqlType="STRING" />
+    <param name="password" sqlType="STRING" />
+    <param name="name" sqlType="STRING" />
+    <param name="image" sqlType="STRING" />
+    <param name="place_of_birth" sqlType="STRING" />
+    <param name="date_of_birth" sqlType="STRING" />
+    <param name="religion" sqlType="STRING" />
+    <param name="address" sqlType="STRING" />
+    <param name="no_hp" sqlType="STRING" />
+    <param name="email" sqlType="STRING" />
+    <param name="email_status" sqlType="STRING" />
+    <param name="email_code" sqlType="STRING" />
+    <param name="sms_status" sqlType="STRING" />
+    <param name="sms_code" sqlType="STRING" />
+    <param name="status_access" sqlType="STRING" />
+    <param name="created_by" sqlType="STRING" />
+    <param name="region" sqlType="STRING" />
+    <param name="role_id" sqlType="STRING" />
+    <param name="type_account_id" sqlType="STRING" />
+    <param name="is_active" sqlType="STRING" />
+    <param name="is_expired" sqlType="STRING" />
+    <param name="created_at" sqlType="STRING" />
+    <param name="updated_at" sqlType="STRING" />
+    <result element="return" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+  </query>
+  <query id="getUsersDetailQuery" useConfig="DataSourceMasterData">
+    <sql>SELECT username,password,name,image,place_of_birth,date_of_birth,religion,address,no_hp,email,email_status,email_code,sms_status,sms_code,status_access,created_by,region,role_id,type_account_id,is_active,is_expired,created_at,updated_at FROM users WHERE email_status = 0 AND id = :id</sql>
+    <param name="id" sqlType="STRING" paramType="SCALAR" />
+    <result outputType="json">{
+  "data":{
+            "id":"$id",
+            "username":"$username",
+            "password":"$password",
+            "name":"$name",
+            "image":"$image",
+            "place_of_birth":"$place_of_birth",
+            "date_of_birth":"$date_of_birth",
+            "religion":"$religion",
+            "address":"$address",
+            "no_hp":"$no_hp",
+            "email":"$email",
+            "email_status":"$email_status",
+            "email_code":"$email_code",
+            "sms_status":"$sms_status",
+            "sms_code":"$sms_code",
+            "status_access":"$status_access",
+             "created_by":"$created_by",
+            "region":"$region",
+            "role_id":"$role_id",
+            "type_account_id":"$type_account_id",
+            "is_active":"$is_active",
+            "is_expired":"$is_expired",
+            "created_at":"$created_at",
+            "updated_at":"$updated_at"
+   }
+}</result>
+  </query>
+  <query id="updateUsersQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE users SET username = :username, password = :password, name = :name, image = :image,place_of_birth = :place_of_birth,date_of_birth = :date_of_birth, religion = :religion, address = :address, no_hp = :no_hp, email = :email, email_status = :email_status, email_code = :email_code, sms_status = :sms_status, sms_code = :sms_code, status_access = :status_access, created_by = :created_by, region = :region, role_id = :role_id, type_account_id = :type_account_id, is_active = :is_active, is_expired = :is_expired, updated_at = :updated_at WHERE id = :id</sql>
+    <param name="username" sqlType="STRING" />
+    <param name="password" sqlType="STRING" />
+    <param name="name" sqlType="STRING" />
+    <param name="image" sqlType="STRING" />
+    <param name="place_of_birth" sqlType="STRING" />
+    <param name="date_of_birth" sqlType="STRING" />
+    <param name="religion" sqlType="STRING" />
+    <param name="address" sqlType="STRING" />
+    <param name="no_hp" sqlType="STRING" />
+    <param name="email" sqlType="STRING" />
+    <param name="email_status" sqlType="STRING" />
+    <param name="email_code" sqlType="STRING" />
+    <param name="sms_status" sqlType="STRING" />
+    <param name="sms_code" sqlType="STRING" />
+    <param name="status_access" sqlType="STRING" />
+    <param name="created_by" sqlType="STRING" />
+    <param name="region" sqlType="STRING" />
+    <param name="role_id" sqlType="STRING" />
+    <param name="type_account_id" sqlType="STRING" />
+    <param name="is_active" sqlType="STRING" />
+    <param name="is_expired" sqlType="STRING" />
+    <param name="updated_at" sqlType="STRING" />
+    <param name="id" sqlType="STRING" />
+    <result element="UpdatedRowCount" useColumnNumbers="true">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+  </query>
+  <query id="deleteUsersQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE users SET email_status = 1,updated_at = :updated_at where id = :id</sql>
+    <result element="UpdatedRowCount" useColumnNumbers="true" rowName="">
+      <element name="id" column="1" xsdType="integer" />
+    </result>
+    <param name="updated_at" sqlType="STRING" />
+    <param name="id" sqlType="STRING" />
+  </query>
+  <operation name="createUsers">
+    <call-query href="createUsersQuery">
+      <with-param name="username" query-param="username" />
+      <with-param name="password" query-param="password" />
+      <with-param name="name" query-param="name" />
+      <with-param name="image" query-param="image" />
+      <with-param name="place_of_birth" query-param="place_of_birth" />
+      <with-param name="date_of_birth" query-param="date_of_birth" />
+      <with-param name="religion" query-param="religion" />
+      <with-param name="address" query-param="address" />
+      <with-param name="no_hp" query-param="no_hp" />
+      <with-param name="email" query-param="email" />
+      <with-param name="email_status" query-param="email_status" />
+      <with-param name="email_code" query-param="email_code" />
+      <with-param name="sms_status" query-param="sms_status" />
+      <with-param name="sms_code" query-param="sms_code" />
+      <with-param name="status_access" query-param="status_access" />
+      <with-param name="created_by" query-param="created_by" />
+      <with-param name="region" query-param="region" />
+      <with-param name="role_id" query-param="role_id" />
+      <with-param name="type_account_id" query-param="type_account_id" />
+      <with-param name="is_active" query-param="is_active" />
+      <with-param name="is_expired" query-param="is_expired" />
+      <with-param name="created_at" query-param="created_at" />
+      <with-param name="updated_at" query-param="updated_at" />
+    </call-query>
+  </operation>
+  <operation name="getUsersDetail">
+    <call-query href="getUsersDetailQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="updateUsers">
+    <call-query href="updateUsersQuery">
+      <with-param name="username" query-param="username" />
+      <with-param name="password" query-param="password" />
+      <with-param name="name" query-param="name" />
+      <with-param name="image" query-param="image" />
+      <with-param name="place_of_birth" query-param="place_of_birth" />
+      <with-param name="date_of_birth" query-param="date_of_birth" />
+      <with-param name="religion" query-param="religion" />
+      <with-param name="address" query-param="address" />
+      <with-param name="no_hp" query-param="no_hp" />
+      <with-param name="email" query-param="email" />
+      <with-param name="email_status" query-param="email_status" />
+      <with-param name="email_code" query-param="email_code" />
+      <with-param name="sms_status" query-param="sms_status" />
+      <with-param name="sms_code" query-param="sms_code" />
+      <with-param name="status_access" query-param="status_access" />
+      <with-param name="created_by" query-param="created_by" />
+      <with-param name="region" query-param="region" />
+      <with-param name="role_id" query-param="role_id" />
+      <with-param name="type_account_id" query-param="type_account_id" />
+      <with-param name="is_active" query-param="is_active" />
+      <with-param name="is_expired" query-param="is_expired" />
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="deleteUsers">
+    <call-query href="deleteUsersQuery">
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+</data>
