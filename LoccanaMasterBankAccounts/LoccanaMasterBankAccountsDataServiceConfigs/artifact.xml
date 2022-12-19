@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="LoccanaMasterBankAccountsDataService" groupId="com.loccana.master.bank_account.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/LoccanaMasterBankAccountsDataService.dbs</file>
+    </artifact>
+</artifacts>

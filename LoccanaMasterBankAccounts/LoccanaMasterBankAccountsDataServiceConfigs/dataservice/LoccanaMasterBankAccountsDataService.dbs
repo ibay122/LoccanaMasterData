@@ -1,0 +1,85 @@
+<data transports="http https" serviceGroup="" serviceNamespace="" name="LoccanaMasterBankAccountsDataService">
+  <description />
+  <config id="DataSourceMasterData">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">admin123</property>
+  </config>
+  <query id="createBankAccountsQuery" keyColumns="id" returnGeneratedKeys="true" useConfig="DataSourceMasterData">
+    <sql>INSERT INTO bank_account (partner_id, name, account_number, description, created_at, updated_at) VALUES (:partner_id,:name,:account_number,:description,:created_at,:updated_at)</sql>
+    <param name="partner_id" sqlType="STRING" />
+    <param name="name" sqlType="STRING" />
+    <param name="account_number" sqlType="STRING" />
+    <param name="description" sqlType="STRING" />
+    <param name="created_at" sqlType="STRING" />
+    <param name="updated_at" sqlType="STRING" />
+    <result useColumnNumbers="true" element="return">
+      <element name="id" xsdType="integer" column="1" />
+    </result>
+  </query>
+  <query id="getBankAccountsDetailQuery" useConfig="DataSourceMasterData">
+    <sql>SELECT id,partner_id,name,description,status,created_at,updated_at FROM bank_account WHERE status = 0 AND id = :id</sql>
+    <param name="id" sqlType="STRING" paramType="SCALAR" />
+    <result outputType="json">{
+   "data":{
+            "id":"$id",
+            "partner_id":"$partner_id",
+            "name":"$name",
+            "description":"$description",
+            "status":"$status",
+            "created_at":"$created_at",
+            "updated_at":"$updated_at"
+   }
+}</result>
+  </query>
+  <query id="updateBankAccountsQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE bank_account SET partner_id = :partner_id,name = :name,description = :description, updated_at = :updated_at WHERE id = :id</sql>
+    <param name="partner_id" sqlType="STRING" paramType="SCALAR" />
+    <param name="name" sqlType="STRING" paramType="SCALAR" />
+    <param name="description" sqlType="STRING" paramType="SCALAR" />
+    <param name="updated_at" sqlType="STRING" paramType="SCALAR" />
+    <param name="id" sqlType="STRING" paramType="SCALAR" />
+    <result useColumnNumbers="true" element="UpdatedRowCount">
+      <element name="id" xsdType="integer" column="1" />
+    </result>
+  </query>
+  <query id="deleteBankAccountsQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE bank_account SET status = 1,updated_at = :updated_at where id = :id</sql>
+    <result useColumnNumbers="true" element="UpdatedRowCount" rowName="">
+      <element name="id" xsdType="integer" column="1" />
+    </result>
+    <param name="updated_at" sqlType="STRING" />
+    <param name="id" sqlType="STRING" />
+  </query>
+  <operation name="createBankAccounts">
+    <call-query href="createBankAccountsQuery">
+      <with-param name="partner_id" query-param="partner_id" />
+      <with-param name="name" query-param="name" />
+      <with-param name="account_number" query-param="account_number" />
+      <with-param name="description" query-param="description" />
+      <with-param name="created_at" query-param="created_at" />
+      <with-param name="updated_at" query-param="updated_at" />
+    </call-query>
+  </operation>
+  <operation name="getBankAccountsDetail">
+    <call-query href="getBankAccountsDetailQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="updateBankAccounts">
+    <call-query href="updateBankAccountsQuery">
+      <with-param name="partner_id" query-param="partner_id" />
+      <with-param name="name" query-param="name" />
+      <with-param name="description" query-param="description" />
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="deleteBankAccounts">
+    <call-query href="deleteBankAccountsQuery">
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+</data>
