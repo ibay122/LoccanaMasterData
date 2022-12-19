@@ -1,0 +1,15 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "role_id": {
+            "type": "integer"
+        },
+        "menu_id": {
+            "type": "integer"
+        }
+    },
+    "required": [
+        "role_id","menu_id"
+    ]
+}

@@ -1,0 +1,11 @@
+---
+key: "LoccanaMasterCrudPermissions-1.0.0"
+name : "LoccanaMasterCrudPermissions"
+displayName : "LoccanaMasterCrudPermissions"
+description: "Sample API"
+version: "1.0.0"
+serviceUrl: "https://{MI_HOST}:{MI_PORT}/loccana/master/crud_permission"
+definitionType: "OAS3"
+securityType: "BASIC"
+mutualSSLEnabled: false
+apiId : "null"

@@ -1,0 +1,95 @@
+<data transports="http https" serviceGroup="" serviceNamespace="" name="LoccanaMasterCrudPermissionsDataService">
+  <description />
+  <config id="DataSourceMasterData">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">admin123</property>
+  </config>
+  <query id="getCrudPermissionsDetailQuery" useConfig="DataSourceMasterData">
+    <sql>SELECT id, role_id, menu_id, approve, created, edit, deleted, created_at, updated_at FROM crud_permission WHERE approve = 0 AND id = :id</sql>
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result outputType="json">{
+   "data":{
+            "id":"$id",
+            "role_id":"$role_id",
+            "menu_id":"$menu_id",
+            "approve":"$approve",
+            "created":"$created",
+            "edit":"$edit",
+            "deleted":"$deleted",
+            "created_at":"$created_at",
+            "updated_at":"$updated_at"
+   }
+}</result>
+  </query>
+  <query id="createCrudPermissionsQuery" useConfig="DataSourceMasterData" keyColumns="id" returnGeneratedKeys="true">
+    <sql>INSERT INTO crud_permission (role_id,menu_id,created,edit,deleted,created_at,updated_at) VALUES (:role_id,:menu_id,:created,:edit,:deleted,:created_at,:updated_at)</sql>
+    <param name="role_id" sqlType="STRING" />
+    <param name="menu_id" sqlType="STRING" />
+    <param name="created" sqlType="STRING" />
+    <param name="edit" sqlType="STRING" />
+    <param name="deleted" sqlType="STRING" />
+    <param name="created_at" sqlType="STRING" />
+    <param name="updated_at" sqlType="STRING" />
+    <result useColumnNumbers="true" element="return">
+      <element name="id" xsdType="integer" column="1" />
+    </result>
+  </query>
+  <query id="updateCrudPermissionsQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE crud_permission SET role_id = :role_id,menu_id = :menu_id,approve = :approve,created = :created,edit = :edit,deleted = :deleted, updated_at = :updated_at WHERE id = :id</sql>
+    <param name="role_id" paramType="SCALAR" sqlType="STRING" />
+    <param name="menu_id" paramType="SCALAR" sqlType="STRING" />
+    <param name="approve" paramType="SCALAR" sqlType="STRING" />
+    <param name="created" paramType="SCALAR" sqlType="STRING" />
+    <param name="edit" paramType="SCALAR" sqlType="STRING" />
+    <param name="deleted" paramType="SCALAR" sqlType="STRING" />
+    <param name="updated_at" paramType="SCALAR" sqlType="STRING" />
+    <param name="id" paramType="SCALAR" sqlType="STRING" />
+    <result useColumnNumbers="true" element="UpdatedRowCount">
+      <element name="id" xsdType="integer" column="1" />
+    </result>
+  </query>
+  <query id="deleteCrudPermissionsQuery" useConfig="DataSourceMasterData" returnUpdatedRowCount="true">
+    <sql>UPDATE crud_permission SET approve = 1,updated_at = :updated_at where id = :id</sql>
+    <result useColumnNumbers="true" element="UpdatedRowCount" rowName="">
+      <element name="id" xsdType="integer" column="1" />
+    </result>
+    <param name="updated_at" sqlType="STRING" />
+    <param name="id" sqlType="STRING" />
+  </query>
+  <operation name="getCrudPermissionsDetail">
+    <call-query href="getCrudPermissionsDetailQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="createCrudPermissions">
+    <call-query href="createCrudPermissionsQuery">
+      <with-param name="role_id" query-param="role_id" />
+      <with-param name="menu_id" query-param="menu_id" />
+      <with-param name="created" query-param="created" />
+      <with-param name="edit" query-param="edit" />
+      <with-param name="deleted" query-param="deleted" />
+      <with-param name="created_at" query-param="created_at" />
+      <with-param name="updated_at" query-param="updated_at" />
+    </call-query>
+  </operation>
+  <operation name="updateCrudPermissions">
+    <call-query href="updateCrudPermissionsQuery">
+      <with-param name="role_id" query-param="role_id" />
+      <with-param name="menu_id" query-param="menu_id" />
+      <with-param name="approve" query-param="approve" />
+      <with-param name="created" query-param="created" />
+      <with-param name="edit" query-param="edit" />
+      <with-param name="deleted" query-param="deleted" />
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="deleteCrudPermissions">
+    <call-query href="deleteCrudPermissionsQuery">
+      <with-param name="updated_at" query-param="updated_at" />
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+</data>
