@@ -1,0 +1,11 @@
+---
+key: "LoccanaMasterUserDetails-1.0.0"
+name : "LoccanaMasterUserDetails"
+displayName : "LoccanaMasterUserDetails"
+description: "Sample API"
+version: "1.0.0"
+serviceUrl: "https://{MI_HOST}:{MI_PORT}/loccana/master/user_detail"
+definitionType: "OAS3"
+securityType: "BASIC"
+mutualSSLEnabled: false
+apiId : "null"
