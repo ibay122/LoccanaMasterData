@@ -1,0 +1,56 @@
+<data name="MasterItemPricesDataService" serviceNamespace="" serviceGroup="" transports="http https">
+  <description />
+  <query id="getItemPriceDetailQuery" useConfig="DatasourceMasterdata">
+    <sql>SELECT item_id, base_price, top_price, bottom_price, price_pcs, buy_price from item_price WHERE status_price = 0 AND id = :id</sql>
+    <param name="id" sqlType="STRING" paramType="SCALAR" />
+    <result outputType="json">{
+			"data":{
+			"item_id":"$item_id",
+			"base_price":"$base_price",
+			"top_price":"$top_price",
+			"bottom_price":"$bottom_price",
+			"price_pcs":"$price_pcs",
+			"buy_price":"$buy_price",
+			"created_at":"$created_at",
+			"updated_at":"$updated_at"
+			}
+}</result>
+  </query>
+  <query id="createItemPricesQuery" useConfig="DatasourceMasterdata" keyColumns="id" returnGeneratedKeys="true">
+    <sql>INSERT INTO item_price (item_id,base_price,top_price,bottom_price,price_pcs,buy_price,created_at,updated_at) VALUES (:item_id,:base_price,:top_price,:bottom_price,:price_pcs,:buy_price,:created_at,:updated_at)</sql>
+    <param name="item_id" sqlType="INTEGER" />
+    <param name="base_price" sqlType="STRING" />
+    <param name="top_price" sqlType="STRING" />
+    <param name="bottom_price" sqlType="STRING" />
+    <param name="price_pcs" sqlType="STRING" />
+    <param name="buy_price" sqlType="STRING" />
+    <param name="created_at" sqlType="STRING" />
+    <param name="updated_at" sqlType="STRING" />
+    <result useColumnNumbers="true" element="return">
+      <element name="id" xsdType="integer" column="1" />
+    </result>
+  </query>
+  <operation name="getItemPricesDetail">
+    <call-query href="getItemPriceDetailQuery">
+      <with-param name="id" query-param="id" />
+    </call-query>
+  </operation>
+  <operation name="createItemPrices">
+    <call-query href="createItemPricesQuery">
+      <with-param name="item_id" query-param="item_id" />
+      <with-param name="base_price" query-param="base_price" />
+      <with-param name="top_price" query-param="top_price" />
+      <with-param name="bottom_price" query-param="bottom_price" />
+      <with-param name="price_pcs" query-param="price_pcs" />
+      <with-param name="buy_price" query-param="buy_price" />
+      <with-param name="created_at" query-param="created_at" />
+      <with-param name="updated_at" query-param="updated_at" />
+    </call-query>
+  </operation>
+  <config id="DatasourceMasterdata">
+    <property name="driverClassName">com.mysql.jdbc.Driver</property>
+    <property name="url">jdbc:mysql://localhost:3306/loccana_masterdata</property>
+    <property name="username">root</property>
+    <property name="password">admin123</property>
+  </config>
+</data>

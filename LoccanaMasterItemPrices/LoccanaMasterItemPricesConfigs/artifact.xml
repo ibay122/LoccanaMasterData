@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="LoccanaMasterItemPrices" groupId="com.example.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/LoccanaMasterItemPrices.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItemPrices_swagger" groupId="com.example.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterItemPrices_swagger.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItemPrices_metadata" groupId="com.example.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/LoccanaMasterItemPrices_metadata.yaml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItemPricesGetDetail" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterItemPricesGetDetail.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItemPricesGetResponseError" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterItemPricesGetResponseError.xml</file>
+    </artifact>
+    <artifact name="LoccanaMasterItemPricesGetResponseSuccess" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LoccanaMasterItemPricesGetResponseSuccess.xml</file>
+    </artifact>
+</artifacts>
